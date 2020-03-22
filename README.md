@@ -1,5 +1,6 @@
 perceptual-hashes
 ================
+[![Build Status](https://travis-ci.com/shamazmazum/perceptual-hashes.svg?branch=master)](https://travis-ci.com/shamazmazum/perceptual-hashes)
 
 **perceptual-hashes** library computes perceptual hashes for images
 (supported formats include formats supported by
