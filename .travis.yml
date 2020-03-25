@@ -19,10 +19,8 @@ install:
 before_script:
   - mkdir lisp
   - pushd lisp
-  - git clone --depth 1 git://github.com/shamazmazum/jpeg-turbo.git
   - git clone --depth 1 git://github.com/shamazmazum/imago.git
   - popd
 
 script:
-  # For some reason jpeg-turbo does not autoload cffi
-  - cl -l cffi -f $TRAVIS_BUILD_DIR/tests/travis.lisp
+  - cl -f $TRAVIS_BUILD_DIR/tests/travis.lisp
