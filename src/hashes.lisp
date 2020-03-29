@@ -46,5 +46,5 @@
 (defun hamming-distance (hash1 hash2)
   "Calculate Hamming distance between two hashes"
   (declare (optimize (speed 3))
-           (type bit-vector hash1 hash2))
+           (type simple-bit-vector hash1 hash2))
   (count 1 (bit-xor hash1 hash2)))
