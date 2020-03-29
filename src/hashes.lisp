@@ -47,4 +47,4 @@
   "Calculate Hamming distance between two hashes"
   (declare (optimize (speed 3))
            (type bit-vector hash1 hash2))
-  (count 1 (map 'bit-vector #'logxor hash1 hash2)))
+  (count 1 (bit-xor hash1 hash2)))
