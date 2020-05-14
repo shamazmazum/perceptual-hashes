@@ -16,11 +16,5 @@ install:
     fi
   - cl -e '(ql-util:without-prompting (ql:add-to-init-file))'
 
-before_script:
-  - mkdir lisp
-  - pushd lisp
-  - git clone --depth 1 git://github.com/shamazmazum/imago.git
-  - popd
-
 script:
   - cl -f $TRAVIS_BUILD_DIR/tests/travis.lisp

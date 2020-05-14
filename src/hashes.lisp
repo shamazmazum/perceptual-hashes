@@ -33,7 +33,7 @@
   (declare (type (or string pathname) pathname))
   (let* ((thumbnail (resize
                      (convert-to-grayscale
-                      (read-image pathname))
+                      (load-image pathname))
                      +thumb-size+
                      +thumb-size+))
          (pixels (flatten (image-pixels thumbnail)))
