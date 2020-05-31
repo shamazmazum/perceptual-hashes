@@ -5,8 +5,19 @@ perceptual-hashes
 **perceptual-hashes** library computes perceptual hashes for images
 (supported formats include formats supported by
 [imago](https://github.com/tokenrove/imago) + jpeg). Perceptual hashes
-are a measure of similarity between images. Currently only average
-hash algorithm (AHash) is supported.
+are a measure of similarity between images.
+
+Supported algorithms
+--------------------
+The following algorithms are supported:
+
+* **aHash**: An algorithm based on whenever each pixel of an image is
+  brighter or darker than the average luminance of all pixels.
+* **dHash**: An algorithm based on whenever each pixel of an image is
+  brighter or darker than its neighbours.
+
+You can find more information
+[here](http://www.hackerfactor.com/blog/?/archives/529-Kind-of-Like-That.html).
 
 Examples
 --------
@@ -14,7 +25,7 @@ Examples
 ~~~~~
 (defconstant +threshold+ 45
     "The distance between hashes can vary from 0 to (length hash) =
-4096. If it is small enough (<= ~45) the images are similar")
+1024. If it is small enough (<= ~45) the images are similar")
 
 (defun images-similar-p (image-name-1 image-name-2)
     (let ((hash1 (perceptual-hashes:ahash image-name-1))
