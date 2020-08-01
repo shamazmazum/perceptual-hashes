@@ -2,6 +2,6 @@
   (:use #:cl
         #:fiveam
         #:jpeg-turbo
-        #:imago
+        #:opticl
         #:perceptual-hashes)
   (:export #:run-tests))

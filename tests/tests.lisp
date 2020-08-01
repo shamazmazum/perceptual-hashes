@@ -3,7 +3,7 @@
 (def-suite hashes :description "Test perceptual hashes")
 (defparameter *head*  "tests/head.jpg")
 (defparameter *waifu* "tests/waifu.jpg")
-(defconstant +threshold+ 30
+(defconstant +threshold+ 45
   "Threshold for similar images")
 
 (defun run-tests ()
@@ -23,20 +23,11 @@
     (multiple-value-bind (array width height)
         (decompress handle pathname
                     :pixel-format :rgb)
-      (let ((pixels (make-array
-                     (list height width)
-                     :element-type 'rgb-pixel)))
-        (loop
-           for i below (* width height)
-           for j from 0 by 3
-           do
-             (setf (row-major-aref pixels i)
-                   (make-color
-                    (aref array (+ j 0))
-                    (aref array (+ j 1))
-                    (aref array (+ j 2)))))
-        (make-instance 'rgb-image
-                       :pixels pixels)))))
+      (let ((image (make-8-bit-rgb-image height width)))
+        (loop for i below (* width height 3) do
+             (setf (row-major-aref image i)
+                   (aref array i)))
+        image))))
 
 (in-suite hashes)
 
@@ -54,29 +45,25 @@
 
 (defun amend-image (image)
   "Change an image a bit"
-  (let ((result (make-instance
-                 (class-of image)
-                 :width  (image-width  image)
-                 :height (image-height image))))
-    (copy result image)
-    (do-image-pixels (result color x y)
-      (multiple-value-bind (r g b)
-          (color-rgb color)
-        (setf color (make-color
-                     (floor (* r 0.7))
-                     g
-                     b))))
-    result))
+  (with-image-bounds (height width)
+      image
+    (let ((new-image (make-8-bit-rgb-image height width)))
+      (loop for i below (* width height 3) do
+           (setf (row-major-aref new-image i)
+                 (floor
+                  (* (row-major-aref image i)
+                     (if (zerop (rem i 3)) 1.0 0.7)))))
+      new-image)))
 
 (defun test-similar (hash image)
   "Test if hash function recognizes similar images"
   (declare (type function hash)
            (type string image))
   (let* ((original (read-jpeg (find-data image)))
-         (blurred (amend-image original)))
+         (modified (amend-image original)))
     (is-true (< (hamming-distance
                  (funcall hash original)
-                 (funcall hash blurred))
+                 (funcall hash modified))
                 +threshold+))))
 
 (defun test-different (hash)

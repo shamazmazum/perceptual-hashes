@@ -1,6 +1,7 @@
 (defpackage perceptual-hashes
   (:use #:cl
-        #:imago
+        #:opticl-core
+        #:opticl
         #:jpeg-turbo
         #:array-operations)
   (:export #:ahash

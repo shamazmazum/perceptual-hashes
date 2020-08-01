@@ -4,10 +4,6 @@
   "The image will be resized to a small square with a side
   +thumb-size+ before a hash is calculated.")
 
-;; grayscale->grayscale converter
-(defmethod convert-to-grayscale ((image grayscale-image))
-  image)
-
 (declaim (ftype
           (function ((or string pathname image))
                     (values bit-vector &optional))
@@ -18,15 +14,15 @@
   (typecase image
     (image image)
     ((or string pathname)
-     (load-image image))))
+     (read-image-file image))))
 
 (defun thumbnail-pixels (image &optional (thumb-size +thumb-size+))
   (declare (type image image)
            (type unsigned-byte thumb-size))
-  (image-pixels
-   (resize
-    (convert-to-grayscale image)
-    thumb-size thumb-size)))
+   (resize-image
+    (coerce-image image '8-bit-gray-image)
+    thumb-size thumb-size
+    :interpolate :bilinear))
 
 (defun ahash (image)
   "Return aHash (average hash) of an @c(image) which can be a string,
@@ -34,8 +30,7 @@ a pathname or an @c(imago:image) object. If @c(image) is a string or a
 pathname, the image is loaded using this pathname.
 This algorithm is based on whenever a pixel is brighter or darker than
 the average luminance of all pixels."
-  (let* ((pixels
-          (flatten (thumbnail-pixels (get-image image))))
+  (let* ((pixels (flatten (thumbnail-pixels (get-image image))))
          (mean (floor (reduce #'+ pixels)
                       (length pixels))))
     (map 'bit-vector

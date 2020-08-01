@@ -15,7 +15,7 @@
                        (symbol-function
                         (intern (symbol-name '#:run-tests)
                                 (find-package :perceptual-hashes-tests)))))
-    :depends-on (:imago :jpeg-turbo :array-operations))
+    :depends-on (:opticl :jpeg-turbo :array-operations))
 
 (defsystem :perceptual-hashes/tests
     :name :perceptual-hashes/tests
