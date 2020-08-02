@@ -21,6 +21,7 @@
   (error 'not-implemented :proc (list 'quit code)))
 
 (defun do-all()
+  (pushnew :64-bit *features*)
   (ql:quickload :perceptual-hashes/tests)
   (portable-quit
    (if (funcall
