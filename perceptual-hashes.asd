@@ -6,6 +6,7 @@
     :license "2-clause BSD"
     :serial t
     :components ((:file "src/package")
+                 (:file "src/conditions")
                  (:file "src/load-image")
                  (:file "src/hashes"))
     :in-order-to ((test-op (load-op "perceptual-hashes/tests")))

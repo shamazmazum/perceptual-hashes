@@ -23,12 +23,18 @@
 (defun load-image (filename)
   "Load image with the name @c(filename)"
   (declare (type (or pathname string) filename))
-  (let ((reader (gethash
-                 (pathname-type (pathname filename))
-                 *image-loaders*
-                 #'read-image)))
-    (funcall reader filename)))
+  (let ((type (pathname-type (pathname filename))))
+    (multiple-value-bind (reader reader-found)
+        (gethash type *image-loaders*)
+      (if reader-found
+          (funcall reader filename)
+          (error 'hash-unknown-format
+                 :format-control "Unknown image type: ~a"
+                 :format-arguments (list type))))))
 
 (progn
   (setf (gethash "jpg"  *image-loaders*) #'read-jpeg-grayscale)
-  (setf (gethash "jpeg" *image-loaders*) #'read-jpeg-grayscale))
+  (setf (gethash "jpeg" *image-loaders*) #'read-jpeg-grayscale)
+  (setf (gethash "png"  *image-loaders*) #'read-png)
+  (setf (gethash "tga"  *image-loaders*) #'read-tga)
+  (setf (gethash "pcx"  *image-loaders*) #'read-pcx))

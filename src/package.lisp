@@ -5,4 +5,7 @@
         #:array-operations)
   (:export #:ahash
            #:dhash
-           #:hamming-distance))
+           #:hamming-distance
+
+           #:hash-error
+           #:hash-unknown-format))
