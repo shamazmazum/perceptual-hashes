@@ -11,10 +11,10 @@
 
 (defun get-image (image)
   (declare (type (or string pathname image) image))
-  (typecase image
-    (image image)
+  (etypecase image
     ((or string pathname)
-     (read-image-file image))))
+     (read-image-file image))
+    (image image)))
 
 (defun thumbnail-pixels (image &optional (thumb-size +thumb-size+))
   (declare (type image image)

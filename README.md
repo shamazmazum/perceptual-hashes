@@ -4,8 +4,8 @@ perceptual-hashes
 
 **perceptual-hashes** library computes perceptual hashes for images
 (supported formats include formats supported by
-[imago](https://github.com/tokenrove/imago) + jpeg). Perceptual hashes
-are a measure of similarity between images.
+[opticl](https://github.com/slyrus/opticl). Perceptual hashes are a measure of
+similarity between images.
 
 Supported algorithms
 --------------------
