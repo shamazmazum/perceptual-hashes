@@ -4,10 +4,6 @@
   "The image will be resized to a small square with a side
   +thumb-size+ before a hash is calculated.")
 
-;; grayscale->grayscale converter
-(defmethod convert-to-grayscale ((image grayscale-image))
-  image)
-
 (declaim (ftype
           (function ((or string pathname image))
                     (values bit-vector &optional))
@@ -18,7 +14,7 @@
   (typecase image
     (image image)
     ((or string pathname)
-     (load-image image))))
+     (read-image image))))
 
 (defun thumbnail-pixels (image &optional (thumb-size +thumb-size+))
   (declare (type image image)
