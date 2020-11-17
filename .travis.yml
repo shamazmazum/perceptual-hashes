@@ -8,13 +8,8 @@ env:
 
 install:
   - sudo apt-get install info install-info libturbojpeg0-dev
-  - if [ -x ./install.sh ] && head -2 ./install.sh | grep '^#cl-travis' > /dev/null;
-    then
-      ./install.sh;
-    else
-      curl https://raw.githubusercontent.com/luismbo/cl-travis/master/install.sh | sh;
-    fi
-  - cl -e '(ql-util:without-prompting (ql:add-to-init-file))'
+  - curl https://raw.githubusercontent.com/luismbo/cl-travis/master/install.sh | sh;
+  - cl -e '(ql-dist:install-dist "http://dist.ultralisp.org/" :prompt nil)'
 
 script:
   - cl -f $TRAVIS_BUILD_DIR/tests/travis.lisp

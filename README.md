@@ -7,6 +7,22 @@ perceptual-hashes
 [imago](https://github.com/tokenrove/imago) + jpeg). Perceptual hashes
 are a measure of similarity between images.
 
+Installation
+------------
+You can install **perceptual-hashes** from [Ultralisp](https://ultralisp.org/)
+repository. Add Ultralisp repository to quicklisp (if you haven't already):
+
+~~~~
+(ql-dist:install-dist "http://dist.ultralisp.org/"
+                      :prompt nil)
+~~~~
+
+and install **perceptual-hashes**:
+
+~~~~
+(ql:quickload :perceptual-hashes)
+~~~~
+
 Supported algorithms
 --------------------
 The following algorithms are supported:
