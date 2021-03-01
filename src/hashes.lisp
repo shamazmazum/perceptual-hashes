@@ -45,15 +45,17 @@ pathname, the image is loaded using this pathname.
 This algorithm is based on whenever a pixel is brighter or darker than
 the neighbour pixels."
   (let ((hash (make-array (* +thumb-size+ +thumb-size+)
-                          :element-type 'bit)))
+                          :element-type 'bit))
+        (pixels (thumbnail-pixels
+                 (get-image image)
+                 (+ +thumb-size+ 1))))
+    (declare (optimize (speed 3))
+             (type (simple-array grayscale-pixel) pixels))
     (loop
-      with pixels = (thumbnail-pixels
-                     (get-image image)
-                     (+ +thumb-size+ 1))
-      with idx = 0
-      for i from 0 below +thumb-size+
+      with idx fixnum = 0
+      for i fixnum from 0 below +thumb-size+
       do
-         (loop for j from 0 below +thumb-size+ do
+         (loop for j fixnum from 0 below +thumb-size+ do
            (setf (aref hash idx)
                  (if (< (* (aref pixels i j) 2)
                         (+ (aref pixels i (1+ j))
