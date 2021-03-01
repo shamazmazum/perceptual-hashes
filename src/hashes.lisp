@@ -47,21 +47,19 @@ the neighbour pixels."
   (let ((hash (make-array (* +thumb-size+ +thumb-size+)
                           :element-type 'bit)))
     (loop
-       with pixels = (thumbnail-pixels
-                      (get-image image)
-                      (+ +thumb-size+ 2))
-       with idx = 0
-       for i from 1 to +thumb-size+
-       do
-         (loop for j from 1 to +thumb-size+ do
-              (setf (aref hash idx)
-                    (if (< (* (aref pixels i j) 4)
-                           (+ (aref pixels (1- i) j)
-                              (aref pixels i (1- j))
-                              (aref pixels i (1+ j))
-                              (aref pixels (1+ i) j)))
+      with pixels = (thumbnail-pixels
+                     (get-image image)
+                     (+ +thumb-size+ 1))
+      with idx = 0
+      for i from 0 below +thumb-size+
+      do
+         (loop for j from 0 below +thumb-size+ do
+           (setf (aref hash idx)
+                 (if (< (* (aref pixels i j) 2)
+                        (+ (aref pixels i (1+ j))
+                           (aref pixels (1+ i) j)))
                         0 1))
-              (incf idx)))
+           (incf idx)))
     hash))
 
 (defun hamming-distance (hash1 hash2)
