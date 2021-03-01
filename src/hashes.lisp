@@ -39,7 +39,7 @@ the average luminance of all pixels."
          pixels)))
 
 (defun dhash (image)
-  "Return aHash (average hash) of an @c(image) which can be a string,
+  "Return dHash (gradient hash) of an @c(image) which can be a string,
 a pathname or an @c(imago:image) object. If @c(image) is a string or a
 pathname, the image is loaded using this pathname.
 This algorithm is based on whenever a pixel is brighter or darker than

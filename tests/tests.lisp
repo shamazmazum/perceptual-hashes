@@ -73,10 +73,10 @@
   (declare (type function hash)
            (type string image))
   (let* ((original (read-jpeg (find-data image)))
-         (blurred (amend-image original)))
+         (changed (amend-image original)))
     (is-true (< (hamming-distance
                  (funcall hash original)
-                 (funcall hash blurred))
+                 (funcall hash changed))
                 +threshold+))))
 
 (defun test-different (hash)
