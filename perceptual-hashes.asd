@@ -17,6 +17,7 @@
     :depends-on (:imago/pngload
                  :imago/jpeg-turbo
                  :array-operations
+                 :alexandria
                  :serapeum))
 
 (defsystem :perceptual-hashes/tests

@@ -38,10 +38,8 @@ a pathname or an @c(imago:image) object. If @c(image) is a string or a
 pathname, the image is loaded using this pathname.
 This algorithm is based on whenever a pixel is brighter or darker than
 the average luminance of all pixels."
-  (let* ((pixels
-          (aops:flatten (thumbnail-pixels (get-image image))))
-         (mean (floor (reduce #'+ pixels)
-                      (length pixels))))
+  (let* ((pixels (aops:flatten (thumbnail-pixels (get-image image))))
+         (mean (alex:mean pixels)))
     (map 'bit-vector
          (lambda (x) (if (< x mean) 0 1))
          pixels)))
