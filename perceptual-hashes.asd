@@ -1,6 +1,6 @@
 (defsystem :perceptual-hashes
     :name :perceptual-hashes
-    :version "0.1"
+    :version "0.2"
     :author "Vasily Postnicov <shamaz.mazum@gmail.com>"
     :description "Perceptual hash algorithms for images"
     :license "2-clause BSD"
