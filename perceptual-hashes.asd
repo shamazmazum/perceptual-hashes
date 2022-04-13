@@ -6,8 +6,6 @@
     :license "2-clause BSD"
     :serial t
     :components ((:file "src/package")
-                 (:file "src/conditions")
-                 (:file "src/load-image")
                  (:file "src/hashes"))
     :in-order-to ((test-op (load-op "perceptual-hashes/tests")))
     :perform (test-op (op system)
@@ -16,7 +14,9 @@
                        (symbol-function
                         (intern (symbol-name '#:run-tests)
                                 (find-package :perceptual-hashes-tests)))))
-    :depends-on (:imago/pngload :jpeg-turbo :array-operations))
+    :depends-on (:imago/pngload
+                 :imago/jpeg-turbo
+                 :array-operations))
 
 (defsystem :perceptual-hashes/tests
     :name :perceptual-hashes/tests

@@ -18,42 +18,10 @@
   (asdf:system-relative-pathname
    :perceptual-hashes/tests name))
 
-(defun read-jpeg (pathname)
-  (with-decompressor (handle)
-    (multiple-value-bind (array width height)
-        (decompress handle pathname
-                    :pixel-format :rgb)
-      (let ((pixels (make-array
-                     (list height width)
-                     :element-type 'rgb-pixel)))
-        (loop
-           for i below (* width height)
-           for j from 0 by 3
-           do
-             (setf (row-major-aref pixels i)
-                   (make-color
-                    (aref array (+ j 0))
-                    (aref array (+ j 1))
-                    (aref array (+ j 2)))))
-        (make-instance 'rgb-image
-                       :pixels pixels)))))
-
 (in-suite hashes)
 
-(defun finishes-ok (hash)
-  "Test if a hash function computes without an error"
-  (declare (type function hash))
-  ;; As a filename
-  (finishes
-    (funcall hash (find-data *head*)))
-  ;; As an image
-  (finishes
-    (funcall
-     hash
-     (read-jpeg (find-data *head*)))))
-
-(defun amend-image (image)
-  "Change an image a bit"
+(defun amend-image-1 (image)
+  "Change an image a bit (variant 1)"
   (let ((result (make-instance
                  (class-of image)
                  :width  (image-width  image)
@@ -63,35 +31,54 @@
       (multiple-value-bind (r g b)
           (color-rgb color)
         (setf color (make-color
-                     (floor (* r 0.7))
+                     (floor (* r 0.8))
                      g
                      b))))
+    result))
+
+(defun amend-image-2 (image)
+  "Change an image a bit (variant 1)"
+  (let ((result (make-instance
+                 (class-of image)
+                 :width  (image-width  image)
+                 :height (image-height image))))
+    (copy result image)
+    (loop repeat 50
+          for x = (random (image-width  image))
+          for y = (random (image-height image))
+          do
+          (setf (image-pixel result x y)
+                (make-color 0 0 0)))
     result))
 
 (defun test-similar (hash image)
   "Test if hash function recognizes similar images"
   (declare (type function hash)
            (type string image))
-  (let* ((original (read-jpeg (find-data image)))
-         (changed (amend-image original)))
-    (is-true (< (hamming-distance
-                 (funcall hash original)
-                 (funcall hash changed))
-                +threshold+))))
+  (let* ((original (read-image (find-data image)))
+         (changed-1 (amend-image-1 original))
+         (changed-2 (amend-image-2 original)))
+    (is (< (hamming-distance
+            (funcall hash original)
+            (funcall hash changed-1))
+           +threshold+))
+    (is (< (hamming-distance
+            (funcall hash original)
+            (funcall hash changed-2))
+           +threshold+))))
 
 (defun test-different (hash)
   "Test if hash function recognizes different images"
   (declare (type function hash))
-  (let ((head  (read-jpeg (find-data *head*)))
-        (waifu (read-jpeg (find-data *waifu*))))
-    (is-true (> (hamming-distance
-                 (funcall hash head)
-                 (funcall hash waifu))
-                +threshold+))))
+  (let ((head  (read-image (find-data *head*)))
+        (waifu (read-image (find-data *waifu*))))
+    (is (> (hamming-distance
+            (funcall hash head)
+            (funcall hash waifu))
+           +threshold+))))
 
 (defun test-hash (hash)
   "All tests for hash function"
-  (finishes-ok    hash)
   (test-different hash)
   (mapc
    (lambda (image)
