@@ -1,7 +1,6 @@
 (defpackage perceptual-hashes
-  (:use #:cl
-        #:imago
-        #:array-operations)
+  (:use #:cl #:imago)
+  (:local-nicknames (:sera :serapeum))
   (:export #:ahash
            #:dhash
            #:hamming-distance))

@@ -16,7 +16,8 @@
                                 (find-package :perceptual-hashes-tests)))))
     :depends-on (:imago/pngload
                  :imago/jpeg-turbo
-                 :array-operations))
+                 :array-operations
+                 :serapeum))
 
 (defsystem :perceptual-hashes/tests
     :name :perceptual-hashes/tests
