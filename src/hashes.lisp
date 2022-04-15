@@ -5,32 +5,32 @@
   +thumb-size+ before a hash is calculated.")
 
 (declaim (ftype
-          (function ((or string pathname image))
+          (function ((or string pathname imago:image))
                     (values bit-vector &optional))
           ahash dhash))
 
 (defun get-image (image)
-  (declare (type (or string pathname image) image))
+  (declare (type (or string pathname imago:image) image))
   (typecase image
-    (image image)
+    (imago:image image)
     ((or string pathname)
-     (read-image image))))
+     (imago:read-image image))))
 
 (sera:-> thumbnail-pixels
-         (image &optional unsigned-byte)
+         (imago:image &optional unsigned-byte)
          (values (simple-array (unsigned-byte 8) (* *)) &optional))
 (defun thumbnail-pixels (image &optional (thumb-size +thumb-size+))
-  (declare (type image image)
+  (declare (type imago:image image)
            (type unsigned-byte thumb-size)
            (optimize (speed 3)))
-  (let ((pixels (image-pixels
-                 (resize
-                  (convert-to-grayscale image)
+  (let ((pixels (imago:image-pixels
+                 (imago:resize
+                  (imago:convert-to-grayscale image)
                   thumb-size thumb-size))))
-    (declare (type (simple-array grayscale-pixel (* *)) pixels))
+    (declare (type (simple-array imago:grayscale-pixel (* *)) pixels))
     (aops:vectorize* '(unsigned-byte 8)
         (pixels)
-      (gray-intensity pixels))))
+      (imago:gray-intensity pixels))))
 
 (defun ahash (image)
   "Return aHash (average hash) of an @c(image) which can be a string,
