@@ -5,8 +5,10 @@
     :description "Perceptual hash algorithms for images"
     :license "2-clause BSD"
     :serial t
-    :components ((:file "src/package")
-                 (:file "src/hashes"))
+    :pathname "src/"
+    :components ((:file "package")
+                 (:file "resize")
+                 (:file "hashes"))
     :in-order-to ((test-op (load-op "perceptual-hashes/tests")))
     :perform (test-op (op system)
                       (declare (ignore op system))
@@ -25,6 +27,8 @@
     :version "0.1"
     :author "Vasily Postnicov <shamaz.mazum@gmail.com>"
     :license "2-clause BSD"
-    :components ((:file "tests/package")
-                 (:file "tests/tests" :depends-on ("tests/package")))
+    :pathname "tests/"
+    :serial t
+    :components ((:file "package")
+                 (:file "tests"))
     :depends-on (:perceptual-hashes :fiveam))
