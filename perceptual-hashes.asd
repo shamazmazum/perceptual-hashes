@@ -16,7 +16,7 @@
                        (symbol-function
                         (intern (symbol-name '#:run-tests)
                                 (find-package :perceptual-hashes-tests)))))
-    :depends-on (:imago/pngload
+    :depends-on (:imago/pngio
                  :imago/jpeg-turbo
                  :array-operations
                  :alexandria
