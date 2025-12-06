@@ -5,18 +5,18 @@ on: [push, pull_request]
 jobs:
   test_and_docs:
     runs-on: ubuntu-latest
-    env:
-      LISP: sbcl
     steps:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Install dependencies
         run: |
           sudo apt-get install info install-info libturbojpeg0-dev
-      - name: Install CIM
+      - name: Install roswell
         run: |
-          curl -L https://raw.githubusercontent.com/shamazmazum/cl-cirrus/github-actions/install-actions.sh | sh
-          cl -e '(ql-dist:install-dist "http://dist.ultralisp.org/" :prompt nil)'
+          curl -L https://raw.githubusercontent.com/roswell/roswell/master/scripts/install-for-ci.sh | sh
+      - name: Install Ultralisp
+        run: |
+          ros -e '(ql-dist:install-dist "http://dist.ultralisp.org/" :prompt nil)'
       - name: Run tests
         run: |
-          cl -f $GITHUB_WORKSPACE/tests/travis.lisp
+          ros -l $GITHUB_WORKSPACE/tests/travis.lisp
