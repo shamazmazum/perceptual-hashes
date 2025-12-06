@@ -1,6 +1,6 @@
 (defsystem :perceptual-hashes
     :name :perceptual-hashes
-    :version "0.3"
+    :version "0.3.1"
     :author "Vasily Postnicov <shamaz.mazum@gmail.com>"
     :description "Perceptual hash algorithms for images"
     :license "2-clause BSD"
@@ -16,19 +16,18 @@
                        (symbol-function
                         (intern (symbol-name '#:run-tests)
                                 (find-package :perceptual-hashes-tests)))))
-    :depends-on (:imago/pngio
-                 :imago/jpeg-turbo
+    :depends-on (:imago
                  :array-operations
                  :alexandria
                  :serapeum))
 
 (defsystem :perceptual-hashes/tests
     :name :perceptual-hashes/tests
-    :version "0.1"
+    :version "0.3.1"
     :author "Vasily Postnicov <shamaz.mazum@gmail.com>"
     :license "2-clause BSD"
     :pathname "tests/"
     :serial t
     :components ((:file "package")
                  (:file "tests"))
-    :depends-on (:perceptual-hashes :fiveam))
+    :depends-on (:perceptual-hashes :fiveam :imago/jpeg-turbo))
