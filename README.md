@@ -1,6 +1,5 @@
 perceptual-hashes
 ===============
-[![Build Status](https://api.cirrus-ci.com/github/shamazmazum/perceptual-hashes.svg)](https://cirrus-ci.com/github/shamazmazum/perceptual-hashes)
 ![CI](https://github.com/shamazmazum/perceptual-hashes/workflows/CI/badge.svg)
 
 **perceptual-hashes** library computes perceptual hashes for images
