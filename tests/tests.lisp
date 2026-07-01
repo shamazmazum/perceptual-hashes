@@ -37,7 +37,7 @@
     result))
 
 (defun amend-image-2 (image)
-  "Change an image a bit (variant 1)"
+  "Change an image a bit (variant 2)"
   (let ((result (make-instance
                  (class-of image)
                  :width  (image-width  image)
