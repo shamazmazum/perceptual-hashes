@@ -15,7 +15,7 @@
 
 ;; This will not work properly for images with dimensions less than
 ;; THUMB-SIZE but since THUMB-SIZE is small, this is probably OK.
-(sera:-> %thumbnail ((simple-array (unsigned-byte 8) (* *)) alex:positive-fixnum)
+(sera:-> %thumbnail ((simple-array (unsigned-byte 8) (* *)) (unsigned-byte 16))
          (values (simple-array (unsigned-byte 8) (* *)) &optional))
 (defun %thumbnail (array thumb-size)
   (declare (optimize (speed 3)))
@@ -42,7 +42,7 @@
                    (max 1 (row-major-aref count i)))))
     result))
 
-(sera:-> thumbnail (imago:image alex:positive-fixnum)
+(sera:-> thumbnail (imago:image (unsigned-byte 16))
          (values (simple-array (unsigned-byte 8) (* *)) &optional))
 (defun thumbnail (image thumb-size)
   "Convert an image into a small thumbnail array of pixel intensity."
