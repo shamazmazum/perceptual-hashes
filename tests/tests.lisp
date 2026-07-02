@@ -3,7 +3,7 @@
 (def-suite hashes :description "Test perceptual hashes")
 (defparameter *head*  "tests/head.jpg")
 (defparameter *waifu* "tests/waifu.jpg")
-(defconstant +threshold+ 30
+(defconstant +threshold+ 4
   "Threshold for similar images")
 
 (defun run-tests ()
