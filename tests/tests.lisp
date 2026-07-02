@@ -90,6 +90,3 @@
 
 (test dhash
   (test-hash #'dhash))
-
-(test phash
-  (test-hash #'phash))

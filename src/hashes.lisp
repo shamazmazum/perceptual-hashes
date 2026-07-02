@@ -2,7 +2,7 @@
 
 (defconstant +thumb-size+ 32
   "The image will be resized to a small square with a side
-+thumb-size+ before a hash is calculated.")
+  +thumb-size+ before a hash is calculated.")
 (deftype hash () '(simple-bit-vector #.(* 32 32)))
 
 (sera:-> flatten ((simple-array * (* *)))
@@ -18,15 +18,20 @@
                             :displaced-to array)))
     (map-into result #'identity tmp)))
 
+(declaim (inline mean))
+(defun mean (array)
+  (/ (loop for x across array
+            sum x fixnum)
+     (float (length array))))
+
 (sera:-> ahash (imago:image) (values hash &optional))
 (defun ahash (image)
-  "Return aHash (average hash) of an @c(image) of type @c(imago:image)
-This algorithm is based on whenever a pixel is brighter or darker than
-the average luminance of all pixels."
+  "Return aHash (average hash) of an @c(image) of type
+@c(imago:image). This algorithm is based on whenever a pixel is
+brighter or darker than the average luminance of all pixels."
   (declare (optimize (speed 3)))
   (let* ((pixels (flatten (thumbnail image +thumb-size+)))
-         (mean (/ (loop for x across pixels sum x fixnum)
-                  (float (length pixels)))))
+         (mean (mean pixels)))
     (map 'bit-vector
          (lambda (x) (if (< x mean) 0 1))
          pixels)))
@@ -34,7 +39,7 @@ the average luminance of all pixels."
 (sera:-> dhash (imago:image) (values hash &optional))
 (defun dhash (image)
   "Return dHash (gradient hash) of an @c(image) of type
-@c(imago:image).  This algorithm is based on whenever a pixel is
+@c(imago:image). This algorithm is based on whenever a pixel is
 brighter or darker than the neighbour pixels."
   (declare (optimize (speed 3)))
   (let ((hash (make-array (* +thumb-size+ +thumb-size+)
@@ -51,38 +56,6 @@ brighter or darker than the neighbour pixels."
                               0 1))
                     (incf idx)))
     hash))
-
-(defconstant +phash-thumb-size+ 128)
-
-(sera:-> phash (imago:image) (values hash &optional))
-(defun phash (image)
-  "Return pHash of an @c(image) of type @c(imago:image). This
-algorithm is based on Fourier transform."
-  (let ((thumbnail (thumbnail image +phash-thumb-size+))
-        (scaled (make-array (list +phash-thumb-size+ +phash-thumb-size+)
-                            :element-type 'single-float)))
-    ;; Convert to float by dividing by 255
-    (loop for i below (array-total-size scaled) do
-      (setf (row-major-aref scaled i)
-            (/ (row-major-aref thumbnail i) 255.0)))
-    (let ((fft (fft:%rfft scaled))
-          ;; FIXME: Only the block with positive frequencies is
-          ;; preserved. Do we need the +/- block?
-          (abs (make-array (* +thumb-size+ +thumb-size+)
-                           :element-type 'single-float)))
-      (loop for i below +thumb-size+
-            for idx1 from 0 by +thumb-size+
-            for idx2 = (array-row-major-index fft i 0) do
-              (loop for j below +thumb-size+ do
-                (setf (aref abs (+ idx1 j))
-                      (abs (row-major-aref fft (+ idx2 j))))))
-      ;; Zero mean value
-      (setf (aref abs 0) 0.0)
-      (let ((mean (/ (loop for x across abs sum x)
-                     (length abs))))
-        (map 'bit-vector
-             (lambda (x) (if (< x mean) 0 1))
-             abs)))))
 
 (sera:-> hamming-distance (hash hash)
          (values (integer 0 #.(* 32 32)) &optional))

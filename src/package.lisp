@@ -1,10 +1,8 @@
 (defpackage perceptual-hashes
   (:use #:cl)
-  (:local-nicknames (#:sera #:serapeum)
-                    (#:alex #:alexandria)
-                    (#:fft  #:cl-fftw/single))
+  (:local-nicknames (:sera :serapeum)
+                    (:alex :alexandria))
   (:export #:hash
            #:ahash
            #:dhash
-           #:phash
            #:hamming-distance))

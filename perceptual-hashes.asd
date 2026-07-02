@@ -1,6 +1,6 @@
 (defsystem :perceptual-hashes
     :name :perceptual-hashes
-    :version "0.4.0"
+    :version "0.3.1"
     :author "Vasily Postnicov <shamaz.mazum@gmail.com>"
     :description "Perceptual hash algorithms for images"
     :license "2-clause BSD"
@@ -19,12 +19,11 @@
     :depends-on (:imago
                  :array-operations
                  :alexandria
-                 :serapeum
-                 :cl-fftw/single))
+                 :serapeum))
 
 (defsystem :perceptual-hashes/tests
     :name :perceptual-hashes/tests
-    :version "0.4.0"
+    :version "0.3.1"
     :author "Vasily Postnicov <shamaz.mazum@gmail.com>"
     :license "2-clause BSD"
     :pathname "tests"

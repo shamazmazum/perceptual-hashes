@@ -31,8 +31,6 @@ The following algorithms are supported:
   brighter or darker than the average luminance of all pixels.
 * **dHash**: An algorithm based on whenever each pixel of an image is
   brighter or darker than its neighbours.
-* **pHash**: An algorithm which is like **aHash** but acts on Fourier
-  representation of an image.
 
 You can find more information
 [here](http://www.hackerfactor.com/blog/?/archives/529-Kind-of-Like-That.html).
