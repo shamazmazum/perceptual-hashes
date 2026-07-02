@@ -19,7 +19,8 @@
     :depends-on (:imago
                  :array-operations
                  :alexandria
-                 :serapeum))
+                 :serapeum
+                 :cl-fftw/single))
 
 (defsystem :perceptual-hashes/tests
     :name :perceptual-hashes/tests
