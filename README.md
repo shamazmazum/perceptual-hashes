@@ -31,6 +31,8 @@ The following algorithms are supported:
   brighter or darker than the average luminance of all pixels.
 * **dHash**: An algorithm based on whenever each pixel of an image is
   brighter or darker than its neighbours.
+* **pHash**: An algorithm which is like **aHash** but acts on Fourier
+  representation of an image.
 
 You can find more information
 [here](http://www.hackerfactor.com/blog/?/archives/529-Kind-of-Like-That.html).
@@ -43,9 +45,9 @@ Examples
     "The distance between hashes can vary from 0 to (length hash) =
 1024. If it is small enough (<= ~45) the images are similar")
 
-(defun images-similar-p (image-name-1 image-name-2)
-    (let ((hash1 (perceptual-hashes:ahash image-name-1))
-          (hash2 (perceptual-hashes:ahash image-name-2)))
+(defun images-similar-p (image1 image2)
+    (let ((hash1 (perceptual-hashes:ahash image1))
+          (hash2 (perceptual-hashes:ahash image2)))
         (< (perceptual-hashes:hamming-distance hash1 hash2)
            +threshold+)))
 ~~~~~

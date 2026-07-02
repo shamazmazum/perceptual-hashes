@@ -1,11 +1,11 @@
 (defsystem :perceptual-hashes
     :name :perceptual-hashes
-    :version "0.3.1"
+    :version "0.4.0"
     :author "Vasily Postnicov <shamaz.mazum@gmail.com>"
     :description "Perceptual hash algorithms for images"
     :license "2-clause BSD"
     :serial t
-    :pathname "src/"
+    :pathname "src"
     :components ((:file "package")
                  (:file "resize")
                  (:file "hashes"))
@@ -24,10 +24,10 @@
 
 (defsystem :perceptual-hashes/tests
     :name :perceptual-hashes/tests
-    :version "0.3.1"
+    :version "0.4.0"
     :author "Vasily Postnicov <shamaz.mazum@gmail.com>"
     :license "2-clause BSD"
-    :pathname "tests/"
+    :pathname "tests"
     :serial t
     :components ((:file "package")
                  (:file "tests"))
