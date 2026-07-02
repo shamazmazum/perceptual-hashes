@@ -1,9 +1,9 @@
 (in-package :perceptual-hashes)
 
-(defconstant +thumb-size+ 8
+(defconstant +thumb-size+ 16
   "The image will be resized to a small square with a side
 +thumb-size+ before a hash is calculated.")
-(deftype hash () '(simple-bit-vector #.(* 8 8)))
+(deftype hash () '(simple-bit-vector #.(* 16 16)))
 
 (sera:-> flatten ((simple-array * (* *)))
          (values (simple-array * (*)) &optional))
@@ -52,7 +52,7 @@ brighter or darker than the neighbour pixels."
                     (incf idx)))
     hash))
 
-(defconstant +phash-thumb-size+ 32)
+(defconstant +phash-thumb-size+ 64)
 
 (sera:-> phash (imago:image) (values hash &optional))
 (defun phash (image)
@@ -85,7 +85,7 @@ algorithm is based on Fourier transform."
              abs)))))
 
 (sera:-> hamming-distance (hash hash)
-         (values (integer 0 #.(* 8 8)) &optional))
+         (values (integer 0 #.(* 16 16)) &optional))
 (defun hamming-distance (hash1 hash2)
   "Calculate Hamming distance between two hashes."
   (declare (optimize (speed 3)))
